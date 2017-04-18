@@ -156,6 +156,8 @@ xcopy /y "$(ProjDir)lib\sfml-graphics-2.dll" "$(OutDir)"</Command>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\collision\Collision.h" />
+    <ClInclude Include="src\collision\Face.h" />
     <ClInclude Include="src\imgui\imconfig.h" />
     <ClInclude Include="src\imgui\imgui-sfml.h" />
     <ClInclude Include="src\imgui\imgui.h" />
@@ -163,15 +165,19 @@ xcopy /y "$(ProjDir)lib\sfml-graphics-2.dll" "$(OutDir)"</Command>
     <ClInclude Include="src\imgui\stb_rect_pack.h" />
     <ClInclude Include="src\imgui\stb_textedit.h" />
     <ClInclude Include="src\imgui\stb_truetype.h" />
+    <ClInclude Include="src\util\bstream.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\collision\Collision.cpp" />
+    <ClCompile Include="src\collision\Face.cpp" />
     <ClCompile Include="src\imgui\imgui-sfml.cpp" />
     <ClCompile Include="src\imgui\imgui.cpp" />
     <ClCompile Include="src\imgui\imgui_demo.cpp" />
     <ClCompile Include="src\imgui\imgui_draw.cpp" />
+    <ClCompile Include="src\util\bstream.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

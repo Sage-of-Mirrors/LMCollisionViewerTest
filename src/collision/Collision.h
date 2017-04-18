@@ -1,11 +1,10 @@
 #pragma once
-#include "bstream.h"
+#include "Face.h"
 #include <cstring>
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <vector>
-#include "Face.h"
 
 class Collision {
 	bool isRendered;

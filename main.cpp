@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "src\imgui\imgui.h"
 #include "src\imgui\imgui-sfml.h"
+#include "src\util\bstream.h"
+#include "src\collision\Collision.h"
  
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/OpenGL.hpp>
@@ -9,6 +11,8 @@
  
 int main()
 {
+	Collision col("D:\\Dropbox\\CollisionImporter\\testobj.obj");
+
     sf::RenderWindow window(sf::VideoMode(640, 480), "");
     window.setVerticalSyncEnabled(true);
     ImGui::SFML::Init(window);
