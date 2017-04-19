@@ -1,7 +1,7 @@
 #pragma once
 #include <cmath>
-#include <SFML\OpenGL.hpp>
 #include <SFML\System\Vector3.hpp>
+#include <vector>
 
 struct CollisionProperties {
 	int polyMaterial; // This will become an enum once the types are documented
@@ -32,6 +32,7 @@ public:
 	void SetSoundMaterial(int);
 	void SetEchoSwitch(int);
 	void CalculateFaceNormal();
+	void CreateBufferObject(std::vector<sf::Vector3f>&, std::vector<int>&);
 	void Render();
 	CollisionProperties& GetCollisionProperties();
 	SoundProperties& GetSoundProperties();

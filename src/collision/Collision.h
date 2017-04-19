@@ -1,5 +1,6 @@
 #pragma once
 #include "Face.h"
+#include <GL\glew.h>
 #include <cstring>
 #include <iostream>
 #include <fstream>
@@ -7,7 +8,11 @@
 #include <vector>
 
 class Collision {
-	bool isRendered;
+	bool m_isRendered;
+	GLuint m_vertBufObj;
+	GLuint m_vertAtrObj;
+	std::vector<sf::Vector3f> m_VertexBuffer;
+	std::vector<int> m_attributeBuffer;
 	std::vector<Face> m_Faces; // Holds face data, which includes position and properties.
 	void m_LoadObj(std::string); // Loads faces from an OBJ file with default properties.
 	void m_LoadJson(std::string); // Loads faces and their properties from a JSON file.

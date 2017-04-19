@@ -8,15 +8,66 @@
 #include <SFML/OpenGL.hpp>
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
+#include <cstring>
+#include <iostream>
+
+GLuint LoadShader(std::string fileName, GLenum shaderType, GLuint program) {
+	GLuint address = glCreateShader(shaderType);
+
+	std::ifstream strm(fileName);
+	std::string str((std::istreambuf_iterator<char>(strm)), std::istreambuf_iterator<char>());
+	const char * c_str = str.c_str();
+	glShaderSource(address, 1, &c_str, NULL);
+	strm.close();
+
+	glCompileShader(address);
+	glAttachShader(program, address);
+
+	GLint compileSuccess = 0;
+	glGetShaderiv(address, GL_COMPILE_STATUS, &compileSuccess);
+
+	if (compileSuccess == 0)
+	{
+
+	}
+
+	return address;
+}
  
 int main()
 {
-	Collision col("D:\\Dropbox\\CollisionImporter\\testobj.obj");
-
     sf::RenderWindow window(sf::VideoMode(640, 480), "");
     window.setVerticalSyncEnabled(true);
+
+	glewExperimental = true;
+	if (glewInit() != GLEW_OK) {
+		//printf("Couldn't init glew\n");
+		return -1;
+	}
+
     ImGui::SFML::Init(window);
  
+	GLuint _program = glCreateProgram();
+	GLuint vertShaderId, fragShaderId;
+	vertShaderId = LoadShader("vs.glsl", GL_VERTEX_SHADER, _program);
+	fragShaderId = LoadShader("fs.glsl", GL_FRAGMENT_SHADER, _program);
+
+	glDeleteShader(vertShaderId);
+	glDeleteShader(fragShaderId);
+	glBindAttribLocation(_program, 0, "vertexPos");
+	glLinkProgram(_program);
+
+	if (glGetError() != GL_NO_ERROR)
+	{
+		printf("Shader program failed!");
+		return -1;
+	}
+
+	GLuint uniformMVP = glGetUniformLocation(_program, "modelview");
+	GLuint uniformColor = glGetUniformLocation(_program, "col");
+
+	Collision col("D:\\Github\\LMCollisionViewerTest\\testcube2.obj");
+
     sf::Color bgColor;
  
     float color[3] = { 0.f, 0.f, 0.f };
@@ -64,12 +115,26 @@ int main()
  
         window.clear(bgColor); // fill background with color
 
+		float ident[] = {
+			1, 0, 0, 0,
+			0, 1, 0, 0,
+			0, 0, 1, 0,
+			0, 0, 0, 1
+		};
+
+		glUniform4f(uniformColor, 1, 1, 1, 1);
+		glUniformMatrix4fv(uniformMVP, 1, false, &ident[0]);
+
+		col.Render();
+
+		/*
         glPointSize(10.0f);
         glBegin(GL_POINTS); //starts drawing of points
             glColor3f(1.0f,0.0f,0.0f);
             glVertex3f(1.0f,1.0f,0.0f);//upper-right corner
             glVertex3f(-1.0f,-1.0f,0.0f);//lower-left corner
         glEnd();//end drawing of points
+		*/
 
         ImGui::Render();
         window.display();

@@ -70,6 +70,14 @@ void Face::CalculateFaceNormal() {
 	m_FaceNormal = sf::Vector3f(x / normalization, y / normalization, z / normalization);
 }
 
+void Face::CreateBufferObject(std::vector<sf::Vector3f>& vectorBuffer, std::vector<int>& indexBuffer) {
+	for (int i = 0; i < 3; i++)
+	{
+		vectorBuffer.push_back(m_VertexPositions[i]);
+		indexBuffer.push_back(vectorBuffer.size() - 1);
+	}
+}
+
 CollisionProperties& Face::GetCollisionProperties() {
 	return m_ColProperties;
 }

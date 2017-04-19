@@ -2,7 +2,9 @@
 #include "Collision.h"
 
 Collision::Collision(std::string in_File) {
-	isRendered = true;
+	m_isRendered = true;
+	m_vertBufObj = 0;
+	m_vertAtrObj = 0;
 
 	std::string copy = in_File;
 	std::string::size_type idx;
@@ -39,6 +41,19 @@ Collision::Collision(std::string in_File) {
 	{
 
 	}
+
+	for (std::vector<Face>::iterator it = m_Faces.begin(); it != m_Faces.end(); it++)
+	{
+		it->CreateBufferObject(m_VertexBuffer, m_attributeBuffer);
+	}
+
+	glGenBuffers(1, &m_vertBufObj);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertBufObj);
+	glBufferData(GL_ARRAY_BUFFER, m_VertexBuffer.size() * sizeof(sf::Vector3f), &m_VertexBuffer[0], GL_STATIC_DRAW);
+
+	glGenBuffers(1, &m_vertAtrObj);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertAtrObj);
+	glBufferData(GL_ARRAY_BUFFER, m_attributeBuffer.size() * sizeof(int), &m_attributeBuffer[0], GL_STATIC_DRAW);
 }
 
 void Collision::m_LoadObj(std::string objPath) {
@@ -112,7 +127,7 @@ void Collision::m_LoadJson(std::string jsonPath) {
 }
 
 void Collision::SetRendered(bool rendered) {
-	isRendered = rendered;
+	m_isRendered = rendered;
 }
 
 std::vector<Face>& Collision::GetFaces() {
@@ -121,6 +136,16 @@ std::vector<Face>& Collision::GetFaces() {
 
 void Collision::Render()
 {
-	if (!isRendered)
+	if (!m_isRendered)
 		return;
+
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertBufObj);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_vertAtrObj);
+
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, false, sizeof(sf::Vector3f), 0);
+
+	glDrawElements(GL_TRIANGLES, m_attributeBuffer.size(), GL_INT, 0);
+
+	glDisableVertexAttribArray(0);
 }
