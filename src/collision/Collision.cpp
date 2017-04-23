@@ -56,6 +56,26 @@ Collision::Collision(std::string in_File) {
 	glBufferData(GL_ARRAY_BUFFER, m_attributeBuffer.size() * sizeof(int), &m_attributeBuffer[0], GL_STATIC_DRAW);
 }
 
+void Collision::SaveJSON(std::string out_file) {
+	Json::Value collision;
+	Json::Value triVec(Json::arrayValue);
+
+	for (std::vector<Face>::iterator it = m_Faces.begin(); it != m_Faces.end(); it++) {
+		Json::Value tri;
+		it->JSONSerialize(tri);
+		triVec.append(tri);
+	}
+
+	collision["collision"]["triangles"] = triVec;
+
+	std::ofstream stm(out_file);
+	stm << collision;
+	stm.close();
+}
+
+void Collision::SaveCompiled(std::string out_file_dir) {
+}
+
 void Collision::m_LoadObj(std::string objPath) {
 	std::vector<sf::Vector3f> vertices;
 	std::vector<sf::Vector3f> normals;

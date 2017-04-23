@@ -2,6 +2,7 @@
 #include <cmath>
 #include <SFML\System\Vector3.hpp>
 #include <vector>
+#include "json\json.h"
 
 struct CollisionProperties {
 	int polyMaterial; // This will become an enum once the types are documented
@@ -34,6 +35,8 @@ public:
 	void CalculateFaceNormal();
 	void CreateBufferObject(std::vector<sf::Vector3f>&, std::vector<int>&);
 	void Render();
+	void JSONSerialize(Json::Value&);
+	void JSONDeserialize(Json::Value&);
 	CollisionProperties& GetCollisionProperties();
 	SoundProperties& GetSoundProperties();
 };

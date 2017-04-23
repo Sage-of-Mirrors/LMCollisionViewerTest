@@ -105,13 +105,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\Libraries\SFML-2.4.2\include;D:\Libraries\glew-2.0.0\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Libraries\SFML-2.4.2\include;D:\Libraries\glew-2.0.0\include;C:\Users\Dylan\Downloads\jsoncpp-1.8.0\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>D:\Libraries\SFML-2.4.2\lib;D:\Libraries\glew-2.0.0\lib\Release\x64;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;sfml-window.lib;sfml-graphics.lib;sfml-system.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\Dylan\Downloads\jsoncpp-1.8.0\build\vs71\debug\lib_json;D:\Libraries\SFML-2.4.2\lib;D:\Libraries\glew-2.0.0\lib\Release\x64</AdditionalLibraryDirectories>
+      <AdditionalDependencies>json_vc71_libmtd.lib;opengl32.lib;glew32.lib;sfml-window.lib;sfml-graphics.lib;sfml-system.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>
@@ -183,6 +183,9 @@ xcopy /y "$(ProjDir)lib\glew32.dll" "$(OutDir)"</Command>
     <ClCompile Include="src\imgui\imgui.cpp" />
     <ClCompile Include="src\imgui\imgui_demo.cpp" />
     <ClCompile Include="src\imgui\imgui_draw.cpp" />
+    <ClCompile Include="src\json\json_reader.cpp" />
+    <ClCompile Include="src\json\json_value.cpp" />
+    <ClCompile Include="src\json\json_writer.cpp" />
     <ClCompile Include="src\util\bstream.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -192,6 +195,7 @@ xcopy /y "$(ProjDir)lib\glew32.dll" "$(OutDir)"</Command>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="src\json\json_valueiterator.inl" />
     <_EmbedManagedResourceFile Include="lib\sfml-graphics-2.dll">
       <DeploymentContent>true</DeploymentContent>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>

@@ -85,3 +85,40 @@ CollisionProperties& Face::GetCollisionProperties() {
 SoundProperties& Face::GetSoundProperties() {
 	return m_SoundProperties;
 }
+
+void Face::JSONSerialize(Json::Value& root) {
+
+	for (int i = 0; i < 3; i++) {
+		root["vtxPos" + std::to_string(i)]["x"] = Json::Value(m_VertexPositions[i].x);
+		root["vtxPos" + std::to_string(i)]["y"] = Json::Value(m_VertexPositions[i].y);
+		root["vtxPos" + std::to_string(i)]["z"] = Json::Value(m_VertexPositions[i].z);
+	}
+
+	for (int i = 0; i < 3; i++) {
+		root["vtxNrm" + std::to_string(i)]["x"] = Json::Value(m_VertexNormals[i].x);
+		root["vtxNrm" + std::to_string(i)]["y"] = Json::Value(m_VertexNormals[i].y);
+		root["vtxNrm" + std::to_string(i)]["z"] = Json::Value(m_VertexNormals[i].z);
+	}
+
+	root["faceNormal"]["x"] = Json::Value(m_FaceNormal.x);
+	root["faceNormal"]["y"] = Json::Value(m_FaceNormal.y);
+	root["faceNormal"]["z"] = Json::Value(m_FaceNormal.z);
+	
+	root["unkFloat"] = m_unknownFloat;
+
+
+	root["colProperties"]["polyMaterial"] = Json::Value(m_ColProperties.polyMaterial);
+	root["colProperties"]["isLadder"] = Json::Value(m_ColProperties.isLadder);
+	root["colProperties"]["ignorePointer"] = Json::Value(m_ColProperties.ignorePointer);
+
+
+	root["soundProperties"]["soundMaterial"] = Json::Value(m_SoundProperties.soundMaterial);
+	root["soundProperties"]["soundEchoSwitch"] = Json::Value(m_SoundProperties.soundEchoSwitch);
+
+	std::vector<std::string> test = root.getMemberNames();
+	float testInt = root["vtxNrm0"]["y"].asFloat();
+}
+
+void Face::JSONDeserialize(Json::Value& root) {
+
+}
