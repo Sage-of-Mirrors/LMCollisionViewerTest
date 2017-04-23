@@ -66,8 +66,7 @@ int main()
 	GLuint uniformMVP = glGetUniformLocation(_program, "modelview");
 	GLuint uniformColor = glGetUniformLocation(_program, "col");
 
-	Collision col("D:\\Github\\LMCollisionViewerTest\\testcube2.obj");
-	col.SaveJSON("D:\\test.txt");
+	Collision col("D:\\test.json");
 
     sf::Color bgColor;
  

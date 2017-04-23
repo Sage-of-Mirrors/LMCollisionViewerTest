@@ -143,7 +143,16 @@ void Collision::m_LoadCompiled(std::string compiledRootPath) {
 }
 
 void Collision::m_LoadJson(std::string jsonPath) {
+	std::ifstream in(jsonPath);
+	Json::Value colRoot;
+	in >> colRoot;
+	in.close();
 
+	for (int i = 0; i < colRoot["collision"]["triangles"].size(); i++) {
+		Face face;
+		face.JSONDeserialize(colRoot["collision"]["triangles"][i]);
+		m_Faces.push_back(face);
+	}
 }
 
 void Collision::SetRendered(bool rendered) {

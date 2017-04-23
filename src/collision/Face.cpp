@@ -89,15 +89,14 @@ SoundProperties& Face::GetSoundProperties() {
 void Face::JSONSerialize(Json::Value& root) {
 
 	for (int i = 0; i < 3; i++) {
-		root["vtxPos" + std::to_string(i)]["x"] = Json::Value(m_VertexPositions[i].x);
-		root["vtxPos" + std::to_string(i)]["y"] = Json::Value(m_VertexPositions[i].y);
-		root["vtxPos" + std::to_string(i)]["z"] = Json::Value(m_VertexPositions[i].z);
-	}
+		std::string iAsString = std::to_string(i);
+		root["vtxPos" + iAsString]["x"] = Json::Value(m_VertexPositions[i].x);
+		root["vtxPos" + iAsString]["y"] = Json::Value(m_VertexPositions[i].y);
+		root["vtxPos" + iAsString]["z"] = Json::Value(m_VertexPositions[i].z);
 
-	for (int i = 0; i < 3; i++) {
-		root["vtxNrm" + std::to_string(i)]["x"] = Json::Value(m_VertexNormals[i].x);
-		root["vtxNrm" + std::to_string(i)]["y"] = Json::Value(m_VertexNormals[i].y);
-		root["vtxNrm" + std::to_string(i)]["z"] = Json::Value(m_VertexNormals[i].z);
+		root["vtxNrm" + iAsString]["x"] = Json::Value(m_VertexNormals[i].x);
+		root["vtxNrm" + iAsString]["y"] = Json::Value(m_VertexNormals[i].y);
+		root["vtxNrm" + iAsString]["z"] = Json::Value(m_VertexNormals[i].z);
 	}
 
 	root["faceNormal"]["x"] = Json::Value(m_FaceNormal.x);
@@ -114,11 +113,23 @@ void Face::JSONSerialize(Json::Value& root) {
 
 	root["soundProperties"]["soundMaterial"] = Json::Value(m_SoundProperties.soundMaterial);
 	root["soundProperties"]["soundEchoSwitch"] = Json::Value(m_SoundProperties.soundEchoSwitch);
-
-	std::vector<std::string> test = root.getMemberNames();
-	float testInt = root["vtxNrm0"]["y"].asFloat();
 }
 
 void Face::JSONDeserialize(Json::Value& root) {
+	for (int i = 0; i < 3; i++) {
+		std::string vtxPosName = "vtxPos" + std::to_string(i);
+		std::string vtxNrmName = "vtxNrm" + std::to_string(i);
+		m_VertexPositions[i] = sf::Vector3f(root[vtxPosName]["x"].asFloat(), root[vtxPosName]["y"].asFloat(), root[vtxPosName]["z"].asFloat());
+		m_VertexNormals[i] = sf::Vector3f(root[vtxNrmName]["x"].asFloat(), root[vtxNrmName]["y"].asFloat(), root[vtxNrmName]["z"].asFloat());
+	}
 
+	m_FaceNormal = sf::Vector3f(root["faceNormal"]["x"].asFloat(), root["faceNormal"]["y"].asFloat(), root["faceNormal"]["z"].asFloat());
+	m_unknownFloat = root["unkFloat"].asFloat();
+
+	m_ColProperties.polyMaterial = root["colProperties"]["polyMaterial"].asInt();
+	m_ColProperties.isLadder = root["colProperties"]["isLadder"].asBool();
+	m_ColProperties.ignorePointer = root["colProperties"]["ignorePointer"].asBool();
+
+	m_SoundProperties.soundMaterial = root["soundProperties"]["soundMaterial"].asInt();
+	m_SoundProperties.soundEchoSwitch = root["soundProperties"]["soundEchoSwitch"].asInt();
 }
